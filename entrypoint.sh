@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Standardwerte für PHP-Einstellungen
+# Standardwerte für PHP-Einstellungen und Shop-Installationsstatus
 MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-128M}
 POST_MAX_SIZE=${PHP_POST_MAX_SIZE:-8M}
 MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME:-120}
@@ -35,11 +35,16 @@ if [ -d "media" ]; then chmod -R 755 media; fi
 
 # Wenn SHOP_INSTALLED auf true gesetzt ist, führe die entsprechenden Aktionen aus
 if [ "$SHOP_INSTALLED" = "true" ]; then
-  # Lösche den /install Ordner, wenn vorhanden
+  # Lösche den /install Ordner, wenn vorhanden und notwendig
   if [ -d "/install" ]; then rm -rf /install; fi
 
-  # Entziehe Schreibrechte für includes/config.JTL-Shop.ini.php
-  if [ -f "includes/config.JTL-Shop.ini.php" ]; then chmod 644 includes/config.JTL-Shop.ini.php; fi
+  # Entziehe Schreibrechte für includes/config.JTL-Shop.ini.php, wenn noch vorhanden
+  if [ -f "includes/config.JTL-Shop.ini.php" ]; then
+    current_perms=$(stat -c "%a" includes/config.JTL-Shop.ini.php)
+    if [ "$current_perms" != "644" ]; then
+      chmod 644 includes/config.JTL-Shop.ini.php
+    fi
+  fi
 fi
 
 # Setze die Benutzer- und Gruppenberechtigungen für alle Dateien im /var/www/html-Ordner
