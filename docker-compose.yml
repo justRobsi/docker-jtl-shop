@@ -14,4 +14,5 @@ services:
       PHP_POST_MAX_SIZE: '16M'
       PHP_MAX_EXECUTION_TIME: '300'
       PHP_UPLOAD_MAX_FILESIZE: '64M'
+      SHOP_INSTALLED: 'false'
     restart: always
