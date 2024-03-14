@@ -22,6 +22,15 @@ echo "ServerName $APACHE_SERVER_NAME" >> /etc/apache2/apache2.conf
 # Pfade sind relativ zu /var/www/html, daher wechseln wir zuerst in das Verzeichnis
 cd /var/www/html
 
+# Prüfe, ob die jtl-shop.zip Datei existiert und entpacke sie, falls vorhanden
+if [ -f "jtl-shop.zip" ]; then
+    echo "jtl-shop.zip gefunden. Entpacke..."
+    unzip -o jtl-shop.zip
+    echo "Entpacken abgeschlossen. Lösche jtl-shop.zip..."
+    rm jtl-shop.zip
+    echo "jtl-shop.zip wurde gelöscht."
+fi
+
 if [ -d "bilder" ]; then chmod -R 755 bilder/*; echo "Berechtigungen für 'bilder' gesetzt."; fi
 if [ -d "dbeS/tmp" ]; then chmod -R 755 dbeS/tmp; echo "Berechtigungen für 'dbeS/tmp' gesetzt."; fi
 if [ -d "dbeS/logs" ]; then chmod -R 755 dbeS/logs; echo "Berechtigungen für 'dbeS/logs' gesetzt."; fi
