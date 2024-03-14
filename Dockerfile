@@ -9,6 +9,7 @@ RUN a2enmod rewrite
 
 # Installiere die erforderlichen PHP-Module
 RUN apt-get update && apt-get install -y \
+    unzip \
     imagemagick \
     curl \
     libxml2 \
