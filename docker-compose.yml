@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  jtl_shop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    volumes:
+      - ./jtl-shop:/var/www/html
+    environment:
+      PHP_MEMORY_LIMIT: '256M'
+      PHP_POST_MAX_SIZE: '16M'
+      PHP_MAX_EXECUTION_TIME: '300'
+      PHP_UPLOAD_MAX_FILESIZE: '64M'
+    restart: always
