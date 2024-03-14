@@ -24,6 +24,7 @@ cd /var/www/html
 
 # Prüfe, ob die jtl-shop.zip Datei existiert und entpacke sie, falls vorhanden
 if [ -f "jtl-shop.zip" ]; then
+    chmod 644 jtl-shop.zip
     echo "jtl-shop.zip gefunden. Entpacke..."
     unzip -o jtl-shop.zip
     echo "Entpacken abgeschlossen. Lösche jtl-shop.zip..."
