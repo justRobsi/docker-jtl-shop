@@ -4,6 +4,9 @@ FROM php:8.2-apache
 # Setze Arbeitsverzeichnis
 WORKDIR /var/www/html
 
+# Aktiviere Apache mod_rewrite
+RUN a2enmod rewrite
+
 # Installiere die erforderlichen PHP-Module
 RUN apt-get update && apt-get install -y \
     imagemagick \
