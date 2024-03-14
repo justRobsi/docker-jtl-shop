@@ -6,6 +6,7 @@ POST_MAX_SIZE=${PHP_POST_MAX_SIZE:-8M}
 MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME:-120}
 UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE:-6M}
 APACHE_SERVER_NAME=${APACHE_SERVER_NAME:-localhost}
+SHOP_INSTALLED=${SHOP_INSTALLED:-false}
 
 # Erstelle custom-php.ini-Datei und setze PHP-Konfigurationsoptionen
 echo "memory_limit = ${MEMORY_LIMIT}" > /usr/local/etc/php/conf.d/custom-php.ini
@@ -31,6 +32,15 @@ if [ -f "rss.xml" ]; then chmod 755 rss.xml; fi
 if [ -d "uploads" ]; then chmod -R 755 uploads; fi
 if [ -d "export" ]; then chmod -R 755 export; fi
 if [ -d "media" ]; then chmod -R 755 media; fi
+
+# Wenn SHOP_INSTALLED auf true gesetzt ist, führe die entsprechenden Aktionen aus
+if [ "$SHOP_INSTALLED" = "true" ]; then
+  # Lösche den /install Ordner, wenn vorhanden
+  if [ -d "/install" ]; then rm -rf /install; fi
+
+  # Entziehe Schreibrechte für includes/config.JTL-Shop.ini.php
+  if [ -f "includes/config.JTL-Shop.ini.php" ]; then chmod 644 includes/config.JTL-Shop.ini.php; fi
+fi
 
 # Setze die Benutzer- und Gruppenberechtigungen für alle Dateien im /var/www/html-Ordner
 chown -R www-data:www-data /var/www/html/*
