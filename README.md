@@ -40,6 +40,16 @@ Du kannst die Umgebungsvariablen in der `docker-compose.yml` Datei anpassen, um 
 - `PHP_UPLOAD_MAX_FILESIZE`: Maximale Dateigröße für Uploads.
 - `APACHE_SERVER_NAME`: Name bzw. URL des Servers.
 
+### Nach der Installation
+
+Nachdem du die Installation abgeschlossen hast, solltest du die Umgebungsvariable `SHOP_INSTALLED` auf `true` setzen. Dies bewirkt, dass der `/install`-Ordner gelöscht und die Schreibrechte für die `includes/config.JTL-Shop.ini.php` entfernt werden, um die Sicherheit deines Shops zu erhöhen.
+
+Füge dazu in deiner `docker-compose.yml` die folgende Zeile unter den Umgebungsvariablen deines Containers hinzu:
+
+```yaml
+- SHOP_INSTALLED=true
+```
+
 ## Entry Point Skript
 
 Das `entrypoint.sh` Skript konfiguriert die PHP-Einstellungen basierend auf den Umgebungsvariablen und setzt die erforderlichen Berechtigungen. Es startet auch den Apache-Server.
