@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install soap \
+    && docker-php-ext-install calendar \
     && docker-php-ext-install pdo_mysql
 
 # Öffne Port 80 für HTTP-Zugriff
