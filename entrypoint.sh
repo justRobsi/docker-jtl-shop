@@ -7,7 +7,7 @@ MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME:-120}
 UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE:-6M}
 APACHE_SERVER_NAME=${APACHE_SERVER_NAME:-localhost}
 SHOP_INSTALLED=${SHOP_INSTALLED:-false}
-TIME_ZONE=${TIME_ZONE:-Europe/Berlin}
+TIME_ZONE=${TIME_ZONE:-}
 TIME_ZONE_PATTERN="define('DB_STARTUP_SQL', \"SET @@session.time_zone="
 
 # Erstelle custom-php.ini-Datei und setze PHP-Konfigurationsoptionen
