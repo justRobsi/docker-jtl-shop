@@ -7,6 +7,8 @@ MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME:-120}
 UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE:-6M}
 APACHE_SERVER_NAME=${APACHE_SERVER_NAME:-localhost}
 SHOP_INSTALLED=${SHOP_INSTALLED:-false}
+TIME_ZONE="Europe/Berlin"
+TIME_ZONE_PATTERN="define('DB_STARTUP_SQL', \"SET @@session.time_zone="
 
 # Erstelle custom-php.ini-Datei und setze PHP-Konfigurationsoptionen
 echo "memory_limit = ${MEMORY_LIMIT}" > /usr/local/etc/php/conf.d/custom-php.ini
@@ -30,6 +32,20 @@ if [ -f "jtl-shop.zip" ]; then
     echo "Entpacken abgeschlossen. Lösche jtl-shop.zip..."
     rm jtl-shop.zip
     echo "jtl-shop.zip wurde gelöscht."
+fi
+
+# Prüfen, ob die Zeitzone gesetzt ist und die Datei existiert
+if [ ! -z "$TIME_ZONE" ] && [ -f "includes/config.JTL-Shop.ini.php" ]; then
+    # Prüfen, ob die Datei bereits eine Zeitzoneinstellung enthält
+    if grep -q "$TIME_ZONE_PATTERN" "includes/config.JTL-Shop.ini.php"; then
+        # Eintrag existiert, also ersetze ihn
+        sed -i "/$TIME_ZONE_PATTERN/c\define('DB_STARTUP_SQL', \"SET @@session.time_zone='$TIME_ZONE';\");" "includes/config.JTL-Shop.ini.php"
+        echo "Zeitzone in includes/config.JTL-Shop.ini.php wurde auf $TIME_ZONE aktualisiert."
+    else
+        # Wenn der Eintrag nicht existiert, füge ihn hinzu
+        echo "define('DB_STARTUP_SQL', \"SET @@session.time_zone='$TIME_ZONE';\");" >> "includes/config.JTL-Shop.ini.php"
+        echo "Zeitzone $TIME_ZONE zu includes/config.JTL-Shop.ini.php hinzugefügt."
+    fi
 fi
 
 if [ -d "bilder" ]; then chmod -R 755 bilder/*; echo "Berechtigungen für 'bilder' gesetzt."; fi
