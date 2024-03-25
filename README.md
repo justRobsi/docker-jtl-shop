@@ -1,22 +1,23 @@
+
 # JTL-Shop Community Free Edition Docker-Setup
 
-Ein cooles Docker-Setup für die JTL-Shop Community Free Edition. Folge diesen Schritten, um deinen Shop mit Docker zu rocken!
+Ein Docker-Setup für die JTL-Shop Community Free Edition. Folge diesen Schritten, um deinen JTL-Shop mit Docker zu erstellen!
 
 ## Voraussetzungen
 
-Bevor du startest, stell sicher, dass du Docker und Docker-Compose installiert hast. Dann schnapp dir die neueste JTL-Shop Community Free Edition.
+Bevor du startest, stelle sicher, dass du Docker und Docker-Compose installiert hast. Dann lade dir die neueste JTL-Shop Community Free Edition auf der JTL-Seite herunter.
 
 ## Setup
 
-1. **Klonen dieses Repos oder Downloade die Dateien**
+1. **Klonen der Repo oder Downloade die Dateien**
 
-   Klon das Repo oder downloade die `Dockerfile`, `docker-compose.yml` und `entrypoint.sh` Dateien in dein Projektverzeichnis.
+   Klone das Repo oder downloade die `Dockerfile`, `docker-compose.yml` und `entrypoint.sh` Dateien in dein Projektverzeichnis.
 
 2. **JTL-Shop Dateien vorbereiten**
 
-   Kopiere die JTL-Shop Dateien in den `jtl-shop` Ordner in deinem Projektverzeichnis. Dieser Ordner wird mit dem Docker-Container synchronisiert.
+   Zur Installation oder zur Aktualisierung des JTL-Shops kannst du einfach die aktuelle Version herunterladen, in jtl-shop.zip umbenennen und in dein freigegebenes Volume legen. Nach dem Start des Containers, wird diese Zip-Datei automatisch entpackt. Du kannst natürlich auch selbst die entpackten Dateien im Volume ablegen.
 
-3. **Docker Image bauen und Container starten**
+4. **Docker Image bauen und Container starten**
 
    Führe den folgenden Befehl im Terminal aus, um dein Docker Image zu bauen und den Container zu starten:
 
@@ -40,6 +41,26 @@ Du kannst die Umgebungsvariablen in der `docker-compose.yml` Datei anpassen, um 
 - `PHP_UPLOAD_MAX_FILESIZE`: Maximale Dateigröße für Uploads.
 - `APACHE_SERVER_NAME`: Name bzw. URL des Servers.
 
+### MYSQL Zeitzone konfigurieren
+
+Um die Zeitzone deiner Shop-SQL-Datenbank anzupassen, kannst du die Umgebungsvariable `TIME_ZONE` in der `docker-compose.yml` Datei definieren. Wenn diese Variable gesetzt ist, wird das `entrypoint.sh` Skript die Zeitzone für MySQL-Operationen im JTL-Shop entsprechend anpassen.
+
+Beispiel, um die Zeitzone zu setzen:
+
+```yaml
+- TIME_ZONE=Europe/Berlin
+```
+
+### Volumes
+
+Das Volume wird genutzt, um die JTL-Shop Daten zwischen dem Host und dem Container zu synchronisieren. Hierdurch kannst du einfach Dateien aktualisieren oder Backups erstellen.
+
+In der `docker-compose.yml` ist das Volume wie folgt definiert:
+
+```yaml
+- ./jtl-shop:/var/www/html
+```
+
 ### Nach der Installation
 
 Nachdem du die Installation abgeschlossen hast, solltest du die Umgebungsvariable `SHOP_INSTALLED` auf `true` setzen. Dies bewirkt, dass der `/install`-Ordner gelöscht und die Schreibrechte für die `includes/config.JTL-Shop.ini.php` entfernt werden, um die Sicherheit deines Shops zu erhöhen.
@@ -60,4 +81,4 @@ Dein JTL-Shop sollte jetzt unter `http://localhost:8080` erreichbar sein. Happy 
 
 ## Beitrag
 
-Falls du coole Ideen oder Verbesserungen hast, zögere nicht, Pull Requests zu schicken oder Issues zu eröffnen. Lasst uns gemeinsam rocken!
+Falls du Ideen oder Verbesserungen hast, kannst du gern Issues dazu eröffnen.
